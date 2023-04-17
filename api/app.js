@@ -1,8 +1,30 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
+const express = require("express");
+const logger = require("morgan");
+const createError = require("http-errors");
+
+require('./config/db.config')
+
 const app = express();
 
-const port = process.env.PORT || 3001;
+app.use(logger("dev"));
 
-app.listen(port, () => console.log(`App running at port ${port}`));
+app.use((req, res, next) => next(createError(404, "Route not found")));
+
+app.use((error, req, res, next) => {
+  if (error.status) {
+    error = createError(500, error);
+  }
+
+  const data = {
+    message: error.message,
+  };
+
+  console.log(error);
+
+  res.status(error.status).json(data);
+});
+
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.info(`App running at port ${port}`));
