@@ -6,8 +6,9 @@ const communitySchema = new Schema({
     type: String,
     maxlength: [20, 'The community name max 20 chars']
   },
-  adress: {
+  address: {
     type: String,
+    required: 'Community address is required'
   },
   manager: {
     type: String,
