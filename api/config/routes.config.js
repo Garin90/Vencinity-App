@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const communitiesController = require('../controllers/communities.contoller');
-const communitiesMid = require('../middlewares/projects.mid')
+const communitiesMid = require('../middlewares/communities.mid')
 const usersController = require('../controllers/users.controller');
 const usersMid = require('../middlewares/users.mid');
+const claimsController = require('../controllers/claims.controller');
+const claimsMid = require('../middlewares/claims.mid');
 
 router.get('/communities', communitiesController.list);
 router.post('/communities/', communitiesController.create);
@@ -19,11 +21,9 @@ router.get('/users/:id', usersMid.exists, usersController.detail);
 router.patch('/users/:id', usersMid.exists, usersController.update);
 router.delete('/users/:id', usersMid.exists, usersController.delete);
 
-// router.get('/claims', claimsController.list);
-// router.post('/claims/', claimsController.create);
-// router.get('/claims/:id', claimsMid.exists, claimsController.detail);
-// router.get('/claims/:id/confirm', claimsMid.exists, claimsController.confirm);
-// router.patch('/claims/:id', claimsMid.exists, claimsController.update);
-// router.delete('/claims/:id', claimsMid.exists, claimsController.delete);
+router.get('/communities/:id/claims', communitiesMid.exists, claimsController.list);
+router.post('/communities/:id/claims', communitiesMid.exists, claimsController.create);
+router.get('/communities/:id/claims/:claimId', communitiesMid.exists, claimsMid.exists, claimsController.detail);
+router.delete('/communities/:id/claims/:claimId', communitiesMid.exists, claimsMid.exists, claimsController.delete);
 
 module.exports = router;

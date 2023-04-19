@@ -24,7 +24,8 @@ const claimSchema = new Schema({
   },
   state: {
     type: String,
-    enum: ["Pending", "Solved"]
+    enum: ["Pending", "Solved"],
+    default: 'Pending'
   }
 
 }, { 
@@ -41,5 +42,5 @@ const claimSchema = new Schema({
   } 
 });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Claim = mongoose.model('Claim', claimSchema);
+module.exports = Claim;
