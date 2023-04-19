@@ -11,36 +11,22 @@ module.exports.create = (req, res, next) => {
     .then((community) => res.status(201).json(community))
     .catch(next);
 };
-module.exports.detail = (req, res, next) => {
-  Community.findById(req.params.id)
-    .then((community) => {
-      if (!community) {
-        next(createError(404, "Community not found"));
-      } else {
-        res.json(community);
-      }
-    })
-    .catch(next);
-};
+
+module.exports.join = (req, res, next) => {
+  //toDo
+}
+
+module.exports.detail = (req, res, next) => res.json(req.community);
+
 module.exports.update = (req, res, next) => {
-  Community.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true })
-    .then((community) => {
-      if (!community) {
-        next(createError(404, "Community not found"));
-      } else {
-        res.json(community)
-      }
-    })
+  Object.assign(req.community, req.body)
+  req.community.save()
+    .then((community) => res.json(community))
     .catch(next)
-};
+}
+
 module.exports.delete = (req, res, next) => {
-  Community.findByIdAndDelete(req.body)
-    .then((community) => {
-      if(!community) {
-        next(createError(404, "Community not found"));
-      } else {
-        res.status(204).send();
-      }
-    })
+  Community.deleteOne({ _id: req.community.id })
+    .then(() => res.status(204).send())
     .catch(next);
-};
+}
