@@ -9,7 +9,7 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
-    minlength: [2, "Student name needs at least 2 chars"]
+    minlength: [2, "User name needs at least 2 chars"]
   },
   lastName: {
     type: String,
@@ -19,7 +19,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    match: [/^\S+@\S+\.\S+$/, "Student email must be valid"]
+    match: [/^\S+@\S+\.\S+$/, "User email must be valid"]
   },
   confirm: {
     type: Boolean,
