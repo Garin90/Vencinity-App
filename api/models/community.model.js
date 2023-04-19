@@ -11,17 +11,22 @@ const communitySchema = new Schema({
     required: 'Community address is required'
   },
   manager: {
-    type: String,
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: "User"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
+  neighbours: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   facilities: [{
     type: String,
+    enum: ["Paddle court", "Multipurpose room", "Gym"],
     minlength: [2, 'Community facilities needs at leat 2 chars']
   }],
-  image: {
-    type: String
-  }
+  imageUrl: {
+    type: String,
+    match: [/^https?:\/\/.+\.(jpg|jpeg|png)$/, "Image URL must be valid"]
+  },
 
 }, { 
   timestamps: true,
@@ -36,6 +41,13 @@ const communitySchema = new Schema({
 
   } 
 });
+
+// communitySchema.virtual("claims", {
+//   ref: "Claims",
+//   localField: "_id",
+//   foreingField: "claim",
+//   justOne: false,
+// })
 
 const Community = mongoose.model('Community', communitySchema);
 module.exports = Community;
