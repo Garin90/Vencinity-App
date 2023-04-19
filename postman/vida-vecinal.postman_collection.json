@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "37e1c73e-6f57-4a06-897e-ad905c76e24b",
+		"name": "vida-vecinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26891644"
+	},
+	"item": [
+		{
+			"name": "Communities",
+			"item": [
+				{
+					"name": "communities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "communities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"Comunidad Victor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "community",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643e76f5618b10a1c629a4a5",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643e76f5618b10a1c629a4a5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "community",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643e58b4e51787ec26db29ec",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643e58b4e51787ec26db29ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "community",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"Comunidad Victor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643ee95a1079f1f4cfa0dca7",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643ee95a1079f1f4cfa0dca7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_API_URL",
+			"value": "http://localhost:3001/api/v1",
+			"type": "string"
+		}
+	]
+}
