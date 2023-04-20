@@ -33,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"address\": \"Comunidad Victor\"\n}",
+							"raw": "{\n    \"address\": \"Comunidad Ana\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -58,13 +58,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_API_URL}}/communities/643e76f5618b10a1c629a4a5",
+							"raw": "{{BASE_API_URL}}/communities/643ee95a1079f1f4cfa0dca7",
 							"host": [
 								"{{BASE_API_URL}}"
 							],
 							"path": [
 								"communities",
-								"643e76f5618b10a1c629a4a5"
+								"643ee95a1079f1f4cfa0dca7"
 							]
 						}
 					},
@@ -72,6 +72,117 @@
 				},
 				{
 					"name": "community",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643ee95a1079f1f4cfa0dca7",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643ee95a1079f1f4cfa0dca7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "community",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"Victor comunidad\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643ee95a1079f1f4cfa0dca7",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643ee95a1079f1f4cfa0dca7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/users",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Arturito\",\n    \"lastName\":  \"Lopez\",\n    \"home\": \"Debajo de un puente 7\",\n    \"email\": \"example@example.org\",\n    \"password\": \"12345678\",\n    \"community\":  \"Arroyo Bodonal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_API_URL}}/users",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/users/6440315d902ad5c72e160470",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"users",
+								"6440315d902ad5c72e160470"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -89,7 +200,7 @@
 					"response": []
 				},
 				{
-					"name": "community",
+					"name": "user",
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -110,6 +221,93 @@
 							"path": [
 								"communities",
 								"643ee95a1079f1f4cfa0dca7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "claim",
+			"item": [
+				{
+					"name": "claims",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/users",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "claims",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Pene roto\",\n    \"description\":  \"Se rompió el pene\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643fa0dedd2530bf045188a0/claims/",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643fa0dedd2530bf045188a0",
+								"claims",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "claim",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/users/6440315d902ad5c72e160470",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"users",
+								"6440315d902ad5c72e160470"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "claim",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_API_URL}}/communities/643e58b4e51787ec26db29ec",
+							"host": [
+								"{{BASE_API_URL}}"
+							],
+							"path": [
+								"communities",
+								"643e58b4e51787ec26db29ec"
 							]
 						}
 					},

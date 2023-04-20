@@ -17,7 +17,7 @@ router.delete('/communities/:id', communitiesMid.exists, communitiesController.d
 router.get('/users', usersController.list);
 router.post('/users/', usersController.create);
 router.get('/users/:id', usersMid.exists, usersController.detail);
-// router.get('/users/:id/confirm', usersMid.exists, usersController.confirm);
+router.get('/users/:id/confirm', usersMid.exists, usersController.confirm);
 router.patch('/users/:id', usersMid.exists, usersController.update);
 router.delete('/users/:id', usersMid.exists, usersController.delete);
 
