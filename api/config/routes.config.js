@@ -26,4 +26,6 @@ router.post('/communities/:id/claims', communitiesMid.exists, claimsController.c
 router.get('/communities/:id/claims/:claimId', communitiesMid.exists, claimsMid.exists, claimsController.detail);
 router.delete('/communities/:id/claims/:claimId', communitiesMid.exists, claimsMid.exists, claimsController.delete);
 
+router.post('/login', usersController.login)
+
 module.exports = router;

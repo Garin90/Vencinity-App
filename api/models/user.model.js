@@ -82,6 +82,10 @@ userSchema.pre('save', function (next) {
   }
 });
 
+userSchema.methods.checkPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+}
+
 userSchema.virtual("claims", {
   ref: "Claim",
   localField: "_id",
