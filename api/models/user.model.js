@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
   home: {
@@ -39,8 +40,8 @@ const userSchema = new Schema({
     type: String
   },
   community: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "community"
   },
   role: {
     type: String,
@@ -56,18 +57,37 @@ const userSchema = new Schema({
       delete ret.__v;
       ret.id = ret._id;
       delete ret._id;
+      delete ret.password;
       return ret;
     }
 
   } 
 });
 
-// userSchema.virtual("claims", {
-//   ref: "Claims",
-//   localField: "_id",
-//   foreingField: "claim",
-//   justOne: false,
-// })
+userSchema.pre('save', function (next) {
+  const user = this;
+
+  if (user.isModified('password')) {
+    bcrypt
+      .genSalt(10)
+      .then((salt) => {
+        return bcrypt.hash(user.password, salt).then((hash) => {
+          user.password = hash;
+          next();
+        });
+      })
+      .catch((error) => next(error));
+  } else {
+    next();
+  }
+});
+
+userSchema.virtual("claims", {
+  ref: "Claim",
+  localField: "_id",
+  foreignField: "user",
+  justOne: false,
+})
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

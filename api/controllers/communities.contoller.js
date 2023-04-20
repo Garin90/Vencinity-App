@@ -3,6 +3,9 @@ const createError = require('http-errors');
 
 module.exports.list = (req, res, next) => {
   Community.find()
+    .populate('claims')
+    .populate('neighbours')
+    .populate('manager')
     .then((communities) => res.json(communities))
     .catch(next);
 };

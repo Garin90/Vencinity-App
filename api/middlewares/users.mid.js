@@ -4,6 +4,7 @@ const createError = require('http-errors');
 module.exports.exists = (req, res, next) => {
   const userId= req.params.userId || req.params.id
   User.findById(userId)
+  .populate("claims")
     .then((user) => {
       if (user) {
         req.user = user;
