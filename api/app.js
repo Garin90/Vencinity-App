@@ -6,11 +6,12 @@ const logger = require("morgan");
 const createError = require("http-errors");
 const mongoose = require('mongoose');
 const secure = require('./middlewares/secure.mid')
+const cors = require('./config/cors.config');
 
 require('./config/db.config')
 
 const app = express();
-
+app.use(cors);
 app.use(express.json());
 
 app.use(helmet());

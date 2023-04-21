@@ -3,6 +3,7 @@ const createError = require('http-errors');
 
 module.exports.list = (req, res, next) => {
   Claim.find()
+    .populate('author')
     .then((claims) => res.json(claims))
     .catch(next);
 };

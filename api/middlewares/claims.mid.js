@@ -4,6 +4,7 @@ const createError = require('http-errors');
 module.exports.exists = (req, res, next) => {
   const claimId= req.params.claimId || req.params.id
   Claim.findById(claimId)
+    .populate('author')
     .then((claim) => {
       if (claim) {
         req.claim = claim;
@@ -14,3 +15,11 @@ module.exports.exists = (req, res, next) => {
     })
     .catch(next);
 }
+
+module.exports.checkAuthor = (req, res, next) => {
+  if (req.claim.user.toString() !== req.author.id.toString()) {
+    next(createError(403, "Forbidden"));
+  } else {
+    next();
+  }
+};
