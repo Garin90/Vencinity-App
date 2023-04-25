@@ -2,33 +2,33 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const claimSchema = new Schema({
-  title: { 
+  title: {
     type: String,
     required: true,
-    minlength: [2, "Claim tittle needs at least 2 chars"],
-    maxlength: [20, 'Claim description max 20 chars']
+    minlength: [2, "Title needs at least 2 chars"],
+    maxlength: [20, "Title max 20 chars"],
   },
   description: {
     type: String,
     required: true,
-    minlength: [20, 'Claim description needs at least 20 chars'],
-    maxlength: [140, 'Claim description max 140 chars']
+    minlength: [20, "Description needs at least 20 chars"],
+    maxlength: [140, "Description max 140 chars"],
   },
   community: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Community"
+    ref: 'Community',
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: 'User',
   },
   state: {
     type: String,
     enum: ["Pending", "Solved"],
-    default: 'Pending'
+    default: "Pending",
   }
-
-}, { 
+  
+}, {
   timestamps: true,
   toJSON: {
     virtuals: true,
@@ -38,8 +38,7 @@ const claimSchema = new Schema({
       delete ret._id;
       return ret;
     }
-
-  } 
+  }
 });
 
 const Claim = mongoose.model('Claim', claimSchema);

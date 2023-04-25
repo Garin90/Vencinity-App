@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
-  facility: { 
+  facility: {
     type: String,
     required: true,
   },
@@ -13,11 +13,16 @@ const reservationSchema = new Schema({
       enum: ["10h-13h", "13h-16h", "16h-19h", "19h-22h"]
     }
   },
-  neighbour: {
+  author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  } 
-}, { 
+    ref: 'User',
+  },
+  community: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Community',
+  },
+ 
+}, {
   timestamps: true,
   toJSON: {
     virtuals: true,
@@ -27,8 +32,7 @@ const reservationSchema = new Schema({
       delete ret._id;
       return ret;
     }
-
-  } 
+  }
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);

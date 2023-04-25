@@ -4,27 +4,30 @@ const Schema = mongoose.Schema;
 const communitySchema = new Schema({
   name: {
     type: String,
-    maxlength: [20, 'The community name max 20 chars']
-  },
-  address: {
-    type: String,
-    required: 'Community address is required'
+    maxLenght: [20, 'Community name max 20 chars']
   },
   manager: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: 'User',
+  },
+  address: {
+    type: String,
+    required: [true, 'Community address is required'],
   },
   facilities: [{
     type: String,
-    enum: ["Paddle court", "Multipurpose room", "Gym"],
-    minlength: [2, 'Community facilities needs at leat 2 chars']
+    enum: ["Paddle Court", "Multipurpose Room", "Gym"],
+    minlength: [2, 'Community facilities needs at least 2 chars']
   }],
   imageUrl: {
     type: String,
-    match: [/^https?:\/\/.+\.(jpg|jpeg|png)$/, "Image URL must be valid"]
+    match: [/^https?:\/\/.+\.(jpg|jpeg|png)$/, "Image URL must be valid"],
+  },
+  code: {
+    type: String
   },
 
-}, { 
+}, {
   timestamps: true,
   toJSON: {
     virtuals: true,
@@ -34,8 +37,7 @@ const communitySchema = new Schema({
       delete ret._id;
       return ret;
     }
-
-  } 
+  }
 });
 
 communitySchema.virtual("claims", {
@@ -43,14 +45,15 @@ communitySchema.virtual("claims", {
   localField: "_id",
   foreignField: "community",
   justOne: false,
-})
+});
 
 communitySchema.virtual("neighbours", {
   ref: "User",
   localField: "_id",
   foreignField: "community",
   justOne: false,
-})
+});
+
 
 const Community = mongoose.model('Community', communitySchema);
 module.exports = Community;

@@ -2,7 +2,7 @@ const Community = require('../models/community.model');
 const createError = require('http-errors');
 
 module.exports.exists = (req, res, next) => {
-  const communityId= req.params.communityId || req.params.id
+  const communityId = req.params.communityId || req.params.id 
   Community.findById(communityId)
     .populate('claims')
     .populate('neighbours')
@@ -12,19 +12,16 @@ module.exports.exists = (req, res, next) => {
         req.community = community;
         next();
       } else {
-        next(createError(404, 'Community not found'))
+        next(createError(404, 'Community not found'));
       }
     })
     .catch(next);
-}
+};
 
 module.exports.checkManager = (req, res, next) => {
-  if (!req.community.manager
-   .map ((managerId) => managerId.toString())
-   .includes(req.user.id.toString()) 
-  ) {
+  if (req.user.id !== req.community.manager.id) {
     next(createError(403, "Forbidden"));
   } else {
-    next;
+    next();
   }
 };

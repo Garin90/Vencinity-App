@@ -2,21 +2,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  title: { 
+  title: {
     type: String,
     required: true,
+  },
+  date: {
+      type: String,
+      required: true,
   },
   description: {
     type: String,
     required: true,
-    minlength: [20, 'Event description needs at least 20 chars'],
-    maxlength: [140, 'Event description max 140 chars']
+    minlength: [20, "Description needs at least 20 chars"],
+    maxlength: [140, "Description max 140 chars"],
   },
-  date: { 
-    type: Date,
-    required: true,
+  community: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Community',
   },
-}, { 
+}, {
   timestamps: true,
   toJSON: {
     virtuals: true,
@@ -26,8 +30,7 @@ const eventSchema = new Schema({
       delete ret._id;
       return ret;
     }
-
-  } 
+  }
 });
 
 const Event = mongoose.model('Event', eventSchema);

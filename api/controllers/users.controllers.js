@@ -1,16 +1,25 @@
-const User = require("../models/user.model");
-const createError = require("http-errors");
-const mailer = require("../config/mailer.config");
+const User = require('../models/user.model');
+const mailer = require('../config/mailer.config');
+const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-
+const Community = require('../models/community.model');
 
 module.exports.list = (req, res, next) => {
   User.find()
     .then((users) => res.json(users))
     .catch(next);
 };
+
+
 module.exports.create = (req, res, next) => {
-  User.create(req.body)
+  Community.findOne({ code: req.body.code })
+    .then((community) => {
+      delete req.body.code;
+      if (community) {
+        req.body.community = community.id;
+      }
+      return User.create(req.body);
+    })
     .then((user) => {
       mailer.sendConfirmationEmail(user);
       res.status(201).json(user);
@@ -18,43 +27,56 @@ module.exports.create = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.join = (req, res, next) => {
-  //toDo
+module.exports.createManager = (req, res, next) => {
+  User.create(req.body)
+    .then((user) => {
+    mailer.sendManagerEmail(user);
+    res.status(201).json(user)
+  })
+    .catch(next);
 };
+
+
+
 
 module.exports.confirm = (req, res, next) => {
   req.user.confirm = true;
 
   req.user
     .save()
-    .then((user) => res.redirect(`${process.env.WEB_URL}/login`))
+    .then((user) => {
+      res.redirect(`${process.env.WEB_URL}/login`);
+    })
     .catch(next);
 };
 
+
 module.exports.detail = (req, res, next) => res.json(req.user);
 
+
 module.exports.update = (req, res, next) => {
-  if (req.user.id !== req.params.id){
+  if (req.user.id !== req.params.userId) {
     return next(createError(403, "Forbidden"));
   }
 
   Object.assign(req.user, req.body);
-  req.user
-    .save()
+  req.user.save()
     .then((user) => res.json(user))
     .catch(next);
 };
 
+
+
 module.exports.delete = (req, res, next) => {
-  if (req.user.id !== req.params.id){
+  if (req.user.id !== req.params.id) {
     return next(createError(403, "Forbidden"));
   }
-
 
   User.deleteOne({ _id: req.user.id })
     .then(() => res.status(204).send())
     .catch(next);
 };
+
 
 module.exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
@@ -64,7 +86,7 @@ module.exports.login = (req, res, next) => {
       }
 
       if (!user.confirm) {
-        return next(createError(401, "Please, confirm your account"))
+        return next(createError(401, "Please confirm your account"));
       }
 
       user.checkPassword(req.body.password)
@@ -73,9 +95,8 @@ module.exports.login = (req, res, next) => {
             return next(createError(401, "Invalid credentials"));
           }
 
-          const token = jwt.sign({ sub: user.id, exp: Date.now() / 1000 +3_600 }, process.env.JWT_SECRET)
-
-          res.json(user);
+          const token = jwt.sign({ sub: user.id, exp: Date.now() / 1000 + 3_600 }, process.env.JWT_SECRET);
+          res.json({ token });
         });
     })
     .catch(next);

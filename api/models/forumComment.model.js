@@ -5,7 +5,7 @@ const forumCommentSchema = new Schema(
   {
     text: {
       type: String,
-      required: "Text is required",
+      required: "Comment text is required",
     },
     forumTopic: {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +14,10 @@ const forumCommentSchema = new Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    community: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Community',
     },
   },
   {
