@@ -9,8 +9,10 @@ module.exports.list = (req, res, next) => {
 
 
 module.exports.create = (req, res, next) => {
+  req.body.community = req.user.community
   Claim.create(req.body)
-    .then((claim) => res.status(201).json(claim))
+    .then((claim) => {
+    res.status(201).json(claim)})
     .catch(next);
 };
 
