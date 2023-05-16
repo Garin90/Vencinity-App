@@ -10,7 +10,7 @@ const ADMIN_USERS = (process.env.ADMIN_USERS || 'admin@example.org')
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: "Name is required",
     minlength: [2, "Name needs at least 2 chars"],
   },
   lastName: {
@@ -20,7 +20,6 @@ const userSchema = new Schema({
   },
   home: {
     type: String,
-    required: true,
   },
   phoneNumber: {
     type: Number,
@@ -54,6 +53,10 @@ const userSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Community',
   },
+  code: {
+    type: String
+  },
+
 }, {
   timestamps: true,
   toJSON: {

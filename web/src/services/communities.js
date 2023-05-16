@@ -1,9 +1,10 @@
 import http from './base-api';
 
-const list = () => http.get('/communities')
-  .then((res) => res.data);
+export const list = () => http.get('/communities')
 
+export const join = (code) => http.post('/communities/join', code)
 
-export  {
-  list,
-};
+export const create = (community) => http.post('/communities', community)
+
+  
+

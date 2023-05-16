@@ -4,24 +4,28 @@ const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const Community = require('../models/community.model');
 
+const maxSessionAge = parseInt(process.env.MAX_SESSION_AGE) || 3600 
+
 module.exports.list = (req, res, next) => {
-  User.find()
+  User.find({ community: req.params.id })
     .then((users) => res.json(users))
     .catch(next);
 };
 
+
 module.exports.create = (req, res, next) => {
-  User.create(req.body)
-   .then((user) => {
-     // mailer.sendConfirmationEmail(user);
-     res.status(201).json(user);
-   })
-   .catch(next);
+   User.create(req.body)
+    .then((user) => {
+      mailer.sendConfirmationEmail(user);
+      res.status(201).json(user);
+    })
+    .catch(next);
 };
+
+
 
 module.exports.confirm = (req, res, next) => {
   req.user.confirm = true;
-
   req.user
     .save()
     .then((user) => {
@@ -32,6 +36,14 @@ module.exports.confirm = (req, res, next) => {
 
 
 module.exports.detail = (req, res, next) => res.json(req.user);
+
+
+module.exports.me = (req, res, next) => {
+  User.findOne({ email: req.user.email })
+    .then((user) => {
+      res.status(200).json(user)
+    }).catch(next)
+} 
 
 
 module.exports.update = (req, res, next) => {
@@ -60,23 +72,24 @@ module.exports.delete = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
+    .populate('community')
     .then((user) => {
       if (!user || !req.body.password) {
-        return next(createError(401, "Invalid credentials"));
+        return next(createError(401, { errors: { password: 'Invalid Credentials' }}));
       }
 
       if (!user.confirm) {
-        return next(createError(401, "Please confirm your account"));
+        return next(createError(401, { errors: { email: 'Please Confirm your account' }}));
       }
 
       user.checkPassword(req.body.password)
         .then((match) => {
           if (!match) {
-            return next(createError(401, "Invalid credentials"));
+            return next(createError(401, { errors: { password: 'Invalid Credentials' }}));
           }
 
-          const token = jwt.sign({ sub: user.id, exp: Date.now() / 1000 + 3_600 }, process.env.JWT_SECRET);
-          res.json({ token });
+          const token = jwt.sign({ sub: user.id, exp: Date.now() / 1000 + maxSessionAge }, process.env.JWT_SECRET);
+          res.json({ token, ...user.toJSON() });
         });
     })
     .catch(next);

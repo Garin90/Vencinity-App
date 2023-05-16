@@ -6,6 +6,11 @@ module.exports.list = (req, res, next) => {
     .populate('claims')
     .populate('neighbours')
     .populate('manager')
+    .populate('forumTopics')
+    .populate('forumComments')
+    .populate('events')
+    .populate('contacts')
+    .populate('reservations')
     .then((communities) => res.json(communities))
     .catch(next);
 };
@@ -14,7 +19,7 @@ module.exports.usersList = (req, res, next) => {
   Community.findById(req.params.id)
     .populate('neighbours')
     .then((community) => {
-      res.json(community.neighbours)
+      res.json(community.neighbours);
     })
     .catch(next);
 };
@@ -34,15 +39,19 @@ module.exports.create = (req, res, next) => {
 
 module.exports.detail = (req, res, next) => res.json(req.community);
 
+
+
 module.exports.join = (req, res, next) => {
   Community.findOne({ code: req.body.code })
     .then((community) => {
       req.user.community = community.id;
       Object.assign(req.user, req.body);
-      req.user.save()
-      res.json(req.user)
+      req.user.save();
+      res.json(req.user);
     }).catch(next);
 };
+
+
 
 
 module.exports.update = (req, res, next) => {

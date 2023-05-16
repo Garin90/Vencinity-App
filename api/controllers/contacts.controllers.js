@@ -1,12 +1,16 @@
 const Contact = require("../models/contact.model");
 
 module.exports.list = (req, res, next) => {
-  Contact.find()
-    .then((contact) => res.json(contact))
+  Contact.find({ community: req.params.id })
+    .populate('community')
+    .then((contact) => {
+      res.json(contact)
+      })
     .catch(next);
 };
 
 module.exports.create = (req, res, next) => {
+  req.body.community = req.user.community
   Contact.create(req.body)
     .then((contact) => res.status(201).json(contact))
     .catch(next);
